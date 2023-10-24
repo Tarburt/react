@@ -4,8 +4,68 @@ import Cart from "./Cart";
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  const [cartElements, setCartElements] = useState([
+    {
+      title: "Colors",
+      price: 100,
+      imageUrl:
+        "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
+      quantity: 2,
+    },
+    {
+      title: "Black and white Colors",
+      price: 50,
+      imageUrl:
+        "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
+      quantity: 3,
+    },
+    {
+      title: "Yellow and Black Colors",
+      price: 70,
+      imageUrl:
+        "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
+      quantity: 1,
+    },
+  ]);
+
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
+  };
+
+  const updateCart = (newCart) => {
+    setCartElements(newCart);
+  };
+
+  // Inside your Header component
+  const addToCart = (item) => {
+    const updatedCart = [...cartElements];
+    const itemIndex = updatedCart.findIndex(
+      (element) => element.title === item.title
+    );
+    if (itemIndex !== -1) {
+      updatedCart[itemIndex].quantity++;
+    } else {
+      updatedCart.push({ ...item, quantity: 1 });
+    }
+    setCartElements(updatedCart);
+  };
+
+  const removeFromCart = (index) => {
+    const updatedCart = [...cartElements];
+    updatedCart.splice(index, 1);
+    updateCart(updatedCart);
+  };
+
+  const decreaseQuantity = (index) => {
+    const updatedCart = [...cartElements];
+    const item = updatedCart[index];
+
+    if (item.quantity > 1) {
+      item.quantity--;
+    } else {
+      updatedCart.splice(index, 1);
+    }
+    updateCart(updatedCart);
   };
 
   return (
@@ -33,31 +93,33 @@ const Header = () => {
         </nav>
         <button
           onClick={toggleCart}
-          className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+          className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
+          {/* Display the number of items in the cart */}
           Cart
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="w-4 h-4 ml-1"
-            viewBox="0 0 24 24"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7"></path>
-          </svg>
+          <span class="inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+            {cartElements.length}
+          </span>
         </button>
       </div>
       {isCartOpen && (
         <div className="fixed inset-0 overflow-y-auto bg-gray-800 bg-opacity-50 z-50">
-          <button onClick={toggleCart} className="absolute top-0 right-0 p-4">
-            X
+          <button
+            onClick={toggleCart}
+            className="absolute top-0 right-0 p-4 text-red-500 bg-transparent hover:bg-red-500 hover:text-white"
+          >
+            ❌
           </button>
-          <div className="pointer-events-none">
-            <Cart />
-          </div>
+          {/* <div className="pointer-events-none"> */}
+          <Cart
+            cartElements={cartElements}
+            addToCart={addToCart}
+            removeFromCart={removeFromCart}
+            decreaseQuantity={decreaseQuantity}
+            className="pointer-events-auto"
+          />
         </div>
+        // </div>
       )}
     </header>
   );

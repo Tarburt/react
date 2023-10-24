@@ -1,44 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Cart = () => {
-  const [cartElements, setCartElements] = useState([
-    {
-      title: "Colors",
-      price: 100,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
-      quantity: 2,
-    },
-    {
-      title: "Black and white Colors",
-      price: 50,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-      quantity: 3,
-    },
-    {
-      title: "Yellow and Black Colors",
-      price: 70,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-      quantity: 1,
-    },
-    // ... Add more cart items as needed
-  ]);
-
+const Cart = ({ cartElements, addToCart, removeFromCart, decreaseQuantity}) => {
   const subtotal = cartElements.reduce(
     (acc, element) => acc + element.price * element.quantity,
     0
   );
-  const shipping = subtotal < 500 ? 40 : 0;
+  const shipping = subtotal === 0 ? 0 : subtotal < 500 ? 40 : 0;
   const total = subtotal + shipping;
-
-  //
-  const removeFromCart = (index) => {
-    const updatedCart = [...cartElements];
-    updatedCart.splice(index, 1);
-    setCartElements(updatedCart);
-  };
 
   return (
     <div className="bg-gray-100 h-screen py-8">
@@ -75,7 +43,7 @@ const Cart = () => {
                         <div className="flex items-center">
                           <button
                             className="border rounded-md py-2 px-4 mr-2"
-                            onClick={() => removeFromCart(index)}
+                            onClick={() => decreaseQuantity(index)}
                           >
                             -
                           </button>
@@ -84,7 +52,7 @@ const Cart = () => {
                           </span>
                           <button
                             className="border rounded-md py-2 px-4 ml-2"
-                            onClick={() => removeFromCart(index)}
+                            onClick={() => addToCart(element)}
                           >
                             +
                           </button>
@@ -98,7 +66,7 @@ const Cart = () => {
                           className="text-red-500 bg-transparent hover:bg-red-500 hover:text-white"
                           onClick={() => removeFromCart(index)}
                         >
-                          Remove
+                          ❌
                         </button>
                       </td>
                     </tr>
