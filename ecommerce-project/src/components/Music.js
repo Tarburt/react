@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
+
 const productsArr = [
   {
     title: "Colors",
@@ -50,6 +53,8 @@ const Products = ({ products }) => {
 };
 
 const Product = ({ product }) => {
+  const { addToCart } = useContext(CartContext);
+
   const openModal = () => {
     const modal = document.getElementById(`modal-${product.title}`);
     const overlay = document.getElementById(`overlay-${product.title}`);
@@ -72,7 +77,10 @@ const Product = ({ product }) => {
         <h2 className="text-lg text-gray-900 font-medium title-font mb-4">
           {product.title}
         </h2>
-        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
+        <button
+          onClick={() => addToCart(product)}
+          class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800"
+        >
           <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
             Add to Cart
           </span>

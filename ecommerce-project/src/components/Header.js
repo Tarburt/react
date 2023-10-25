@@ -1,81 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Cart from "./Cart";
+import { CartContext } from "../contexts/CartContext";
 
 const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  const [cartElements, setCartElements] = useState([
-    {
-      title: "Colors",
-      price: 100,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
-      quantity: 2,
-    },
-    {
-      title: "Black and white Colors",
-      price: 50,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-      quantity: 3,
-    },
-    {
-      title: "Yellow and Black Colors",
-      price: 70,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-      quantity: 1,
-    },
-  ]);
+  const { cartElements } = useContext(CartContext);
 
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
-
-  const updateCart = (newCart) => {
-    setCartElements(newCart);
-  };
-
-  // Inside your Header component
-  const addToCart = (item) => {
-    // Create a copy of the cartElements array
-    const updatedCart = [...cartElements];
-
-    // Check if the item is already in the cart
-    const itemIndex = updatedCart.findIndex((el) => el.title === item.title);
-
-    if (itemIndex !== -1) {
-      // If the item exists, update its quantity
-      updatedCart[itemIndex].quantity++;
-    } else {
-      // If the item is not in the cart, add it with a quantity of 1
-      updatedCart.push({ ...item, quantity: 1 });
-    }
-
-    setCartElements(updatedCart);
-  };
-
-  const removeFromCart = (index) => {
-    // Create a new array without the item to remove
-    const updatedCart = [...cartElements];
-    updatedCart.splice(index, 1);
-    updateCart(updatedCart);
-  };
-
-  const decreaseQuantity = (index) => {
-    const updatedCart = [...cartElements];
-    const item = updatedCart[index];
-
-    if (item.quantity > 1) {
-      item.quantity--; // Decrease the quantity by one
-    } else {
-      // If the quantity is 1, remove the entire element
-      updatedCart.splice(index, 1);
-    }
-
-    updateCart(updatedCart);
-  };
-
 
   return (
     <header className="text-gray-600 body-font">
@@ -120,13 +54,7 @@ const Header = () => {
             ❌
           </button>
           {/* <div className="pointer-events-none"> */}
-          <Cart
-            cartElements={cartElements}
-            addToCart={addToCart}
-            removeFromCart={removeFromCart}
-            decreaseQuantity={decreaseQuantity}
-            className="pointer-events-auto"
-          />
+          <Cart className="pointer-events-auto" />
         </div>
         // </div>
       )}

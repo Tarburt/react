@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
 
-const Cart = ({ cartElements, addToCart, removeFromCart, decreaseQuantity}) => {
+const Cart = () => {
+  const { cartElements, addToCart, removeFromCart, decreaseQuantity } =
+    useContext(CartContext);
+
   const subtotal = cartElements.reduce(
     (acc, element) => acc + element.price * element.quantity,
     0
