@@ -38,19 +38,25 @@ const Header = () => {
 
   // Inside your Header component
   const addToCart = (item) => {
+    // Create a copy of the cartElements array
     const updatedCart = [...cartElements];
-    const itemIndex = updatedCart.findIndex(
-      (element) => element.title === item.title
-    );
+
+    // Check if the item is already in the cart
+    const itemIndex = updatedCart.findIndex((el) => el.title === item.title);
+
     if (itemIndex !== -1) {
+      // If the item exists, update its quantity
       updatedCart[itemIndex].quantity++;
     } else {
+      // If the item is not in the cart, add it with a quantity of 1
       updatedCart.push({ ...item, quantity: 1 });
     }
+
     setCartElements(updatedCart);
   };
 
   const removeFromCart = (index) => {
+    // Create a new array without the item to remove
     const updatedCart = [...cartElements];
     updatedCart.splice(index, 1);
     updateCart(updatedCart);
@@ -61,12 +67,15 @@ const Header = () => {
     const item = updatedCart[index];
 
     if (item.quantity > 1) {
-      item.quantity--;
+      item.quantity--; // Decrease the quantity by one
     } else {
+      // If the quantity is 1, remove the entire element
       updatedCart.splice(index, 1);
     }
+
     updateCart(updatedCart);
   };
+
 
   return (
     <header className="text-gray-600 body-font">
@@ -103,7 +112,7 @@ const Header = () => {
         </button>
       </div>
       {isCartOpen && (
-        <div className="fixed inset-0 overflow-y-auto bg-gray-800 bg-opacity-50 z-50">
+        <div className="fixed inset-0 overflow-y-auto bg-gray-800 bg-opacity-50 z-50 ">
           <button
             onClick={toggleCart}
             className="absolute top-0 right-0 p-4 text-red-500 bg-transparent hover:bg-red-500 hover:text-white"
@@ -115,7 +124,7 @@ const Header = () => {
             cartElements={cartElements}
             addToCart={addToCart}
             removeFromCart={removeFromCart}
-            decreaseQuantity={decreaseQuantity}
+            decreaseQuantity
             className="pointer-events-auto"
           />
         </div>
