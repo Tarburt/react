@@ -125,7 +125,6 @@ const Header = () => {
             addToCart={addToCart}
             removeFromCart={removeFromCart}
             decreaseQuantity={decreaseQuantity}
-            // hehe
             className="pointer-events-auto"
           />
         </div>
